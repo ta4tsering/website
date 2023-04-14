@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block landing_page %}
+<!-- WELCOME -->
+<section class="py-4 py-md-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-12 col-md-5 col-lg-6 order-md-2">
+                <img src="{% static 'images/header-illustration.png' %}" class="img-fluid mw-md-110"/>
+            </div>
+            <div class="col-12 col-md-7 col-lg-6 order-md-1">
+                <h1 class="display-5 text-center text-md-start">Welcome to <span class="text-primary">Zurjong</span></h1>
+                <p class="lead text-center text-md-start text-muted mb-3 mb-lg-5">A Place to find your perfect tutor from your community at reasonable price</p>
+                <p class="small text-center text-md-start text-muted fw-light m-0">*Register as</p>
+                <div class="text-center text-md-start">
+                    <a href="{% url 'users:signup_student' %}" class="btn btn-lg btn-primary shadow fw-light">Student</a>
+                    <a href="{% url 'users:signup_teacher' %}" class="ms-2 btn btn-lg btn-outline-secondary fw-light">Tutor</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FEATURES -->
+<section>
+</section>
+
+<!-- TOP TUTORS -->
+<section class="pt-3 pb-5 bg-light">
+    <div class="container">
+        <h5 class="fw-light text-center text-md-start text-secondary">Our Tutors</h5>
+        <table class="table mt-3">
+            <tbody>
+                    {% for teacher in teachers %}
+                        {% if teacher.profile.fee_per_hour %}
+                            <tr>
+                                <th scope="row"><i class="bi bi-person"></i> {{ teacher.name }}</th>
+                                <td>
+                                    <div class="d-flex flex-wrap gap-1">
+                                        {% for curriculum in teacher.profile.curriculums.all|slice:":5" %}
+                                            <div class="border rounded-pill px-2">
+                                                <a href="{{ curriculum.url }}" style="text-decoration: none; font-size: 0.8rem" target="blank_">{{curriculum.name}}</a>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </td>
+                                <td class="text-end">
+                                    <span class="fw-bold">${{ teacher.profile.fee_per_hour }}</span><span class="fw-light">/Hour</span>
+                                </td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+            </tbody>
+        </table>
+        <div class="mt-4 d-flex justify-content-center">
+            <a href="{% url 'teachers:list' %}" class="btn btn-sm btn-outline-primary fw-light">Show More</a>
+        </div>
+    </div>
+</section>
+
+<!-- TESTOMONAILS -->
+<section>
+</section>
+
+<!-- FQA -->
+<section>
+</section>
+
+<!-- CTA -->
+<section>
+</section>
+
+<!-- FOOTER -->
+<footer class="p-3 p-md-5 bg-white">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-md-4 col-lg-3">
+                <!-- Brand -->
+                <h5>Zurjong</h5>
+                <!-- Social -->
+                <ul class="list-unstyled list-inline">
+                    <li class="list-inline-item">
+                        <a href="https://www.instagram.com/zurjong" target="_blank">
+                            <img src="{% static 'images/icons/social/instagram.svg'%}" alt="zurjong_instagram">
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="https://www.facebook.com/profile.php?id=100079673148825" target="_blank">
+                            <img src="{% static 'images/icons/social/facebook.svg' %}" alt="zurjong_facebook">
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="https://twitter.com/zurjong" target="_blank">
+                            <img src="{% static 'images/icons/social/twitter.svg' %}" alt="zurjong_twitter">
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-6 col-md-4 col-lg-2">
+                <!-- Heading-->
+                <h6 class="fw-bold text-uppercase text-secondary">Pages</h6>
+                <!-- List -->
+                <ul class="list-unstyled">
+                    <li class="mb-2">
+                        <a href="{% url 'core:about' %}" class="text-reset text-decoration-none fw-light">About Us</a>
+                    </li>
+                    <li class="mb-2">
+                        <a href="{% url 'core:contact' %}" class="text-reset text-decoration-none fw-light">Contact</a>
+                    </li>
+                    <li class="mb-2">
+                        <a href="{% url 'core:tibetan-section' %}" class="text-reset text-decoration-none fw-light">བོད་ཡིག</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-6 col-md-4 col-lg-2">
+                <!-- Heading-->
+                <h6 class="fw-bold text-uppercase text-secondary">LEGAL</h6>
+                <!-- List -->
+                <ul class="list-unstyled">
+                    <li>
+                        <a href="{% url 'core:terms_and_conditions' %}" class="text-reset text-decoration-none fw-light" target="_blank">Term &amp Condition</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'core:terms_and_conditions' %}#privacypolicy1" class="text-reset text-decoration-none fw-light" target="_blank">Privacy Policy</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+{% endblock %}

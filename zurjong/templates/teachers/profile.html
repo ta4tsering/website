@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}User: {{ object.username }}{% endblock %}
+
+{% block content %}
+<div class="container mt-3">
+  <div class="row">
+    <div class="col-2">
+        <div class="list-group">
+            <a href="#" class="list-group-item list-group-item-action active">Profile</a>
+            <a href="#" class="list-group-item list-group-item-action disabled">Requests</a>
+        </div>
+    </div>
+
+    <div class="col">
+        <div class="row border rounded py-1">
+            <div class="row py-1">
+                <div class="col-3">Username</div>
+                <div class="col text-muted fw-light">{{ teacher.username }}</div>
+            </div>
+            <div class="row py-1">
+                <div class="col-3">Full Name</div>
+                <div class="col text-muted fw-light">{{ teacher.name }}</div>
+            </div>
+            <div class="row py-1">
+                <div class="col-3">Email</div>
+                <div class="col text-muted fw-light">{{ teacher.email }}
+                    <a class="ms-3 btn btn-sm btn-secondary fw-light" href="{% url 'account_email' %}" role="button">Update</a>
+                </div>
+            </div>
+            <div class="row py-1">
+                <div class="col-3">Contact No.</div>
+                <div class="col text-muted fw-light">{{ teacher.profile.contact_number }}</div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="h4 ps-0">Bio</div>
+            <div class="border rounded p-2">
+                <p class="text-muted mb-0 fw-light">{{ teacher.profile.bio|safe }}</p>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="h4 ps-0">Qualification</div>
+            <div class="border rounded p-2">
+                <p class="text-muted mb-0 fw-light">{{ teacher.profile.qualification|safe }}</p>
+            </div>
+        </div>
+
+        <div class="row h4 mt-4 ps-0">Tuition Related</div>
+        <div class="row gap-2 border rounded py-2">
+            <div class="row py-1">
+                <div class="col-3">Languge</div>
+                <div class="col text-muted fw-light">
+                    <div class="d-flex flex-wrap gap-1">
+                        {% for lang in teacher.profile.languages.all %}
+                            <div class="border rounded-pill px-2">{{ lang }}</div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="row py-1">
+                <div class="col-3">Student Types</div>
+                <div class="col text-muted fw-light">
+                    <div class="d-flex flex-wrap gap-1">
+                        {% for student_type in teacher.profile.students.all %}
+                            <div class="border rounded-pill px-2">{{ student_type }}</div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="row py-1">
+                <div class="col-3">Curriculums</div>
+                <div class="col fw-light">
+                    <div class="d-flex flex-wrap gap-1">
+                        {% for curriculum in teacher.profile.curriculums.all %}
+                            <div class="border rounded-pill px-2">
+                                <a href="{{ curriculum.url }}" style="text-decoration: none" target="blank_">{{curriculum.name}}</a>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="row py-1">
+                <div class="col-3">Fee</div>
+                <div class="col">
+                    <span class="fw-bold">${{ teacher.profile.fee_per_hour }}</span>
+                    <span class="fw-light">USD / Hour</span></div>
+            </div>
+        </div>
+
+
+        {% if object == request.user %}
+            <div class="row mt-3">
+                <div class="col-sm-12">
+                    <a class="btn btn-primary" href="{% url 'teachers:update_profile' %}" role="button">Edit</a>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock content %}
